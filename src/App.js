@@ -1,8 +1,11 @@
 import './App.css'
 import Cell from './components/Cell'
+import { useSelector } from 'react-redux'
 
 const App = () => {
-    const board = new Array(64).fill(<Cell row={0} column={0} value={'X'} />)
+    const board = useSelector((state) =>
+        state.map((props) => <Cell {...props} />)
+    )
     return <div className="game-board">{board}</div>
 }
 
