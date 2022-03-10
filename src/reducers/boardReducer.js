@@ -3,7 +3,13 @@ const WHITE = '0'
 const VALID = '+'
 const EMPTY = ' '
 
-const initialBoard = new Array(64).fill({ row: 0, column: 0, value: BLACK })
+const initialBoard = new Array(8)
+for (let i = 0; i < 8; i++) {
+    initialBoard[i] = new Array(8)
+    for (let j = 0; j < 8; j++) {
+        initialBoard[i][j] = { row: i, column: j, value: BLACK }
+    }
+}
 
 const boardReducer = (state = initialBoard, action) => {
     console.log('state now: ', state)
@@ -15,7 +21,7 @@ const boardReducer = (state = initialBoard, action) => {
 }
 
 export const initBoard = () => {
-    
+
 }
 
 export default boardReducer

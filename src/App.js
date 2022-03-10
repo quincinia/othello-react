@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 const App = () => {
     const board = useSelector((state) =>
-        state.map((props) => <Cell {...props} />)
+        state.flat().map((props) => <Cell {...props} />)
     )
     return <div className="game-board">{board}</div>
 }
