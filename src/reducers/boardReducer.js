@@ -20,6 +20,13 @@ const boardReducer = (
     console.log('state now: ', state)
     console.log('action', action)
     switch (action.type) {
+        case 'ALTERNATE_PLAYERS': {
+            const copy = [...state.board]
+            const { row, column } = action.data
+            copy[row][column] = { row, column, value: state.player }
+            let nextPlayer = state.player === BLACK ? WHITE : BLACK
+            return { board: copy, player: nextPlayer }
+        }
         case 'INIT_BOARD': {
             const copy = [...state.board]
             for (const { row, column, value } of action.data) {
@@ -36,6 +43,13 @@ const boardReducer = (
         }
         default:
             return state
+    }
+}
+
+export const alternatePlayers = (row, column) => {
+    return {
+        type: 'ALTERNATE_PLAYERS',
+        data: { row, column },
     }
 }
 
