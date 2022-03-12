@@ -11,23 +11,28 @@ for (let i = 0; i < 8; i++) {
     }
 }
 
-const boardReducer = (state = initialBoard, action) => {
+const initialPlayer = BLACK
+
+const boardReducer = (
+    state = { board: initialBoard, player: initialPlayer },
+    action
+) => {
     console.log('state now: ', state)
     console.log('action', action)
     switch (action.type) {
         case 'INIT_BOARD': {
-            const copy = [...state]
+            const copy = [...state.board]
             for (const { row, column, value } of action.data) {
                 console.log(row, column, value)
                 copy[row][column] = { row, column, value }
             }
-            return copy
+            return { board: copy, player: state.player }
         }
         case 'MAKE_WHITE': {
-            const copy = [...state]
+            const copy = [...state.board]
             const { row, column } = action.data
             copy[row][column] = { row, column, value: WHITE }
-            return copy
+            return { board: copy, player: state.player }
         }
         default:
             return state
