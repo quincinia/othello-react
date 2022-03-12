@@ -1,5 +1,17 @@
+import { useDispatch } from 'react-redux'
+
 const Cell = ({ row, column, value }) => {
-    return <div className="box">{value}</div>
+    const dispatch = useDispatch()
+
+    const onClick = () => {
+        console.log(row, column)
+    }
+
+    return (
+        <div className="box" onClick={onClick}>
+            {value}
+        </div>
+    )
 }
 
 export default Cell
