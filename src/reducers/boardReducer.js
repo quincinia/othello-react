@@ -15,13 +15,21 @@ const boardReducer = (state = initialBoard, action) => {
     console.log('state now: ', state)
     console.log('action', action)
     switch (action.type) {
+        case 'MAKE_WHITE':
+            const copy = [...state]
+            const { row, column } = action.data
+            copy[row][column] = { row, column, value: WHITE }
+            return copy
         default:
             return state
     }
 }
 
-export const initBoard = () => {
-
+export const makeWhite = (row, column) => {
+    return {
+        type: 'MAKE_WHITE',
+        data: { row, column },
+    }
 }
 
 export default boardReducer
