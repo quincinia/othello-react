@@ -7,7 +7,7 @@ const initialBoard = new Array(8)
 for (let i = 0; i < 8; i++) {
     initialBoard[i] = new Array(8)
     for (let j = 0; j < 8; j++) {
-        initialBoard[i][j] = { row: i, column: j, value: EMPTY }
+        initialBoard[i][j] = { row: i, column: j, value: EMPTY, pairs: [] }
     }
 }
 
