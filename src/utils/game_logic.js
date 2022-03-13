@@ -38,8 +38,43 @@ const trace = (board, source, direction) => {
         }
 
     board[traceRow][traceColumn].pairs.push(source)
+
+    return true
 }
 
-const scan = (board, row, column) => {}
+const scan = (board, row, column) => {
+    let validMove = false
+    let rowStart = row - 1,
+        rowEnd = rowStart + 3
+    let columnStart = column - 1,
+        columnEnd = columnStart + 3
 
-const reversi = (board, row, column) => {}
+    let source = board[row][column]
+    for (let i = rowStart; i < rowEnd; i++) {
+        for (let j = columnStart; j < columnEnd; j++) {
+            if (oob(i, j)) continue
+            if (board[i][j] === oppositeColor(source))
+                validMove = trace(board, source, { i: i - row, j: j - column })
+        }
+    }
+
+    return validMove
+}
+
+const reversi = (board, source) => {
+    for (let pair of source.pairs) {
+        let { row: travelRow, column: travelColumn } = source
+        // Generate unit vectors for the trace direction
+        let i = +(pair.column > source.column) || -(pair.column < source.column)
+        let j = +(pair.row > source.row) || -(pair.row < source.row)
+
+        while (travelRow+i !== pair.row && travelColumn+j !== pair.column) {
+            travelRow += i
+            travelColumn += j
+            flip(board[travelRow][travelColumn])
+        }
+    }
+    source.pairs = []
+}
+
+
