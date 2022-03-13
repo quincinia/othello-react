@@ -7,10 +7,13 @@ import { initBoard } from './reducers/boardReducer'
 const App = () => {
     const dispatch = useDispatch()
     useEffect(() => dispatch(initBoard()), [])
-    const board = useSelector((state) => {
-        return state.board.flat().map((props) => <Cell {...props} />)
+    const { board, player } = useSelector(({ board, player }) => {
+        return {
+            board: board.flat().map((props) => <Cell {...props} />),
+            player,
+        }
     })
-    return <div className="game-board">{board}</div>
+    return <div className="game-board">{board}<p>player: {player}</p></div>
 }
 
 export default App
