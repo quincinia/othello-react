@@ -21,6 +21,8 @@ const flip = (cell) => {
 const trace = (board, source, direction) => {
     let { row: traceRow, column: traceColumn } = source
     let { i, j } = direction
+    console.log(`tracing cell (${source.row},${source.column})`)
+    console.log(`trace vector <${i},${j}>`)
 
     // Trace until the first non-opposite color
     do {
@@ -38,7 +40,9 @@ const trace = (board, source, direction) => {
         }
 
     board[traceRow][traceColumn].pairs.push(source)
-
+    console.log(
+        `added (${traceRow}, ${traceColumn}) as a pair to (${source.row}, ${source.column})`
+    )
     return true
 }
 
@@ -53,7 +57,8 @@ const scan = (board, row, column) => {
     for (let i = rowStart; i < rowEnd; i++) {
         for (let j = columnStart; j < columnEnd; j++) {
             if (oob(i, j)) continue
-            if (board[i][j] === oppositeColor(source))
+            console.log(`checking cell (${i},${j})`)
+            if (board[i][j].value === oppositeColor(source))
                 validMove = trace(board, source, { i: i - row, j: j - column })
         }
     }
@@ -68,7 +73,7 @@ const reversi = (board, source) => {
         let i = +(pair.column > source.column) || -(pair.column < source.column)
         let j = +(pair.row > source.row) || -(pair.row < source.row)
 
-        while (travelRow+i !== pair.row && travelColumn+j !== pair.column) {
+        while (travelRow + i !== pair.row && travelColumn + j !== pair.column) {
             travelRow += i
             travelColumn += j
             flip(board[travelRow][travelColumn])
@@ -77,4 +82,4 @@ const reversi = (board, source) => {
     source.pairs = []
 }
 
-
+export default { trace, scan, reversi }
