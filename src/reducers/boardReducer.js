@@ -31,6 +31,12 @@ const boardReducer = (
             // App will handle endgame state
             break
         }
+        case 'REVERSI': {
+            const copy = [...state.board]
+            const { row, column } = action.data
+            utils.reversi(copy, copy[row][column])
+            return { board: copy, player: state.player }
+        }
         case 'SCAN': {
             const copy = [...state.board]
             const { row, column } = action.data
@@ -73,6 +79,13 @@ const boardReducer = (
 export const traceLeft = (row, column) => {
     return { 
         type: 'TRACE_LEFT',
+        data: { row, column }
+    }
+}
+
+export const reversi = (row, column, value) => {
+    return { 
+        type: value === VALID ? 'REVERSI' : 'SCAN',
         data: { row, column }
     }
 }

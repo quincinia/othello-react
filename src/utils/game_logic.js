@@ -13,9 +13,9 @@ const oppositeColor = (cell) => {
 }
 
 const flip = (cell) => {
-    return cell.value === BLACK
-        ? { ...cell, value: WHITE }
-        : { ...cell, value: BLACK }
+    cell.value = cell.value === BLACK
+        ? WHITE
+        : BLACK
 }
 
 const trace = (board, source, direction) => {
@@ -67,19 +67,26 @@ const scan = (board, row, column) => {
 }
 
 const reversi = (board, source) => {
+    let newColor = source.value;
     for (let pair of source.pairs) {
+        newColor = pair.value
         let { row: travelRow, column: travelColumn } = source
         // Generate unit vectors for the trace direction
-        let i = +(pair.column > source.column) || -(pair.column < source.column)
-        let j = +(pair.row > source.row) || -(pair.row < source.row)
+        let j = +(pair.column > source.column) || -(pair.column < source.column)
+        let i = +(pair.row > source.row) || -(pair.row < source.row)
 
-        while (travelRow + i !== pair.row && travelColumn + j !== pair.column) {
+        console.log(`flipping from (${travelRow}, ${travelColumn})`)
+        console.log(`travel direction <${i},${j}>`)
+        console.log(`stopping at (${pair.row}, ${pair.column})`);
+        while (!(travelRow + i === pair.row && travelColumn + j === pair.column)) {
             travelRow += i
             travelColumn += j
+            console.log(`flipping {${travelRow}, ${travelColumn}}`)
             flip(board[travelRow][travelColumn])
         }
     }
     source.pairs = []
+    source.value = newColor
 }
 
 export default { trace, scan, reversi }
