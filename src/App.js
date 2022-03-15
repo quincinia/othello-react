@@ -6,10 +6,14 @@ import { initBoard, startGame, showMoves, movesLeft } from './reducers/boardRedu
 
 const App = () => {
     const dispatch = useDispatch()
-    const { board, player } = useSelector(({ board, player }) => {
+    const { board, player, blackCount, whiteCount } = useSelector(({ board, player }) => {
+        let flat = board.flat()
+        console.log(flat)
         return {
-            board: board.flat().map((props) => <Cell {...props} />),
+            board: flat.map((props) => <Cell {...props} />),
             player,
+            blackCount: flat.reduce((count, cell) => cell.value === '1' ? count+1 : count, 0),
+            whiteCount: flat.reduce((count, cell) => cell.value === '0' ? count+1 : count, 0)
         }
     })
     useEffect(() => dispatch(initBoard()), [])
@@ -30,7 +34,9 @@ const App = () => {
             <button onClick={onClick}>start game</button>
             <button onClick={playerTurn('1')}>Black's Moves</button>
             <button onClick={playerTurn('0')}>White's Moves</button>
-            <button onClick={() => dispatch(movesLeft())}>Moves left?</button>
+            <p>{player === '' ? 'Game over!' : null}</p>
+            <p>Black: {blackCount}</p>
+            <p>White: {whiteCount}</p>
         </div>
     )
 }
