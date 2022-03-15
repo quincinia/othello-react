@@ -13,9 +13,7 @@ const oppositeColor = (cell) => {
 }
 
 const flip = (cell) => {
-    cell.value = cell.value === BLACK
-        ? WHITE
-        : BLACK
+    cell.value = cell.value === BLACK ? WHITE : BLACK
 }
 
 const trace = (board, source, direction) => {
@@ -67,7 +65,7 @@ const scan = (board, row, column) => {
 }
 
 const reversi = (board, source) => {
-    let newColor = source.value;
+    let newColor = source.value
     for (let pair of source.pairs) {
         newColor = pair.value
         let { row: travelRow, column: travelColumn } = source
@@ -77,8 +75,10 @@ const reversi = (board, source) => {
 
         console.log(`flipping from (${travelRow}, ${travelColumn})`)
         console.log(`travel direction <${i},${j}>`)
-        console.log(`stopping at (${pair.row}, ${pair.column})`);
-        while (!(travelRow + i === pair.row && travelColumn + j === pair.column)) {
+        console.log(`stopping at (${pair.row}, ${pair.column})`)
+        while (
+            !(travelRow + i === pair.row && travelColumn + j === pair.column)
+        ) {
             travelRow += i
             travelColumn += j
             console.log(`flipping {${travelRow}, ${travelColumn}}`)
@@ -89,4 +89,14 @@ const reversi = (board, source) => {
     source.value = newColor
 }
 
-export default { trace, scan, reversi }
+const turn = (board, player) => {
+    let hasMove = false
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            if (board[i][j].value === player && scan(board, i, j))
+                hasMove = true
+        }
+    }
+    return hasMove
+}
+export default { trace, scan, reversi, turn }

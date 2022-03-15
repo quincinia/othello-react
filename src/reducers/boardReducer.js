@@ -12,7 +12,7 @@ for (let i = 0; i < 8; i++) {
     }
 }
 
-const initialPlayer = BLACK
+const initialPlayer = EMPTY
 
 const boardReducer = (
     state = { board: initialBoard, player: initialPlayer },
@@ -30,6 +30,11 @@ const boardReducer = (
             // Otherwise, stay the same player and find valid moves for them
             // App will handle endgame state
             break
+        }
+        case 'START_GAME': {
+            const copy = [...state.board]
+            utils.turn(copy, BLACK)
+            return { board: copy, player: BLACK }
         }
         case 'REVERSI': {
             const copy = [...state.board]
@@ -73,6 +78,12 @@ const boardReducer = (
         }
         default:
             return state
+    }
+}
+
+export const startGame = () => {
+    return {
+        type: 'START_GAME'
     }
 }
 
