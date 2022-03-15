@@ -56,7 +56,8 @@ const boardReducer = (
             const copy = [...state.board]
             const { row, column } = action.data
             utils.reversi(copy, copy[row][column])
-            return { board: copy, player: state.player }
+            let nextPlayer = utils.nextPlayer(copy, copy[row][column].value)
+            return { board: copy, player: nextPlayer }
         }
         case 'SCAN': {
             const copy = [...state.board]

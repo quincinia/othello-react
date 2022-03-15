@@ -13,7 +13,7 @@ const App = () => {
         }
     })
     useEffect(() => dispatch(initBoard()), [])
-
+    // useEffect(() => dispatch(showMoves(player)), [player])
     const onClick = () => {
         dispatch(initBoard())
         dispatch(startGame())

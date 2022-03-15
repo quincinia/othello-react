@@ -115,4 +115,17 @@ const movesLeft = (board) => {
     clearPairs(board)
     return turn(board, BLACK) || turn(board, WHITE)
 }
-export default { trace, scan, reversi, turn, clearPairs, movesLeft }
+
+const nextPlayer = (board, currentPlayer) => {
+    const NONE = ''
+    let oppositePlayer = currentPlayer === BLACK ? WHITE : BLACK
+    clearPairs(board)
+    if (turn(board, oppositePlayer)) {
+        return oppositePlayer
+    }
+    if (turn(board, currentPlayer)) {
+        return currentPlayer
+    }
+    return NONE
+}
+export default { trace, scan, reversi, turn, clearPairs, movesLeft, nextPlayer }

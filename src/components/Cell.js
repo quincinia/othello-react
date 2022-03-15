@@ -6,8 +6,10 @@ const Cell = ({ row, column, value }) => {
 
     const onClick = () => {
         console.log(row, column)
-        dispatch(reversi(row, column, value))
-        dispatch(clearPairs())
+        if (value === '+') {
+            dispatch(reversi(row, column, value))    
+            // dispatch(clearPairs())
+        }
     }
 
     return (
