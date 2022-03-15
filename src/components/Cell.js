@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { makeWhite, alternatePlayers, traceLeft, scan, reversi } from '../reducers/boardReducer'
+import { makeWhite, alternatePlayers, traceLeft, scan, reversi, clearPairs } from '../reducers/boardReducer'
 
 const Cell = ({ row, column, value }) => {
     const dispatch = useDispatch()
@@ -7,6 +7,7 @@ const Cell = ({ row, column, value }) => {
     const onClick = () => {
         console.log(row, column)
         dispatch(reversi(row, column, value))
+        dispatch(clearPairs())
     }
 
     return (
