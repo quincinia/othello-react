@@ -99,4 +99,20 @@ const turn = (board, player) => {
     }
     return hasMove
 }
-export default { trace, scan, reversi, turn }
+
+const clearPairs = (board) => {
+    for (let row of board) {
+        for (let cell of row) {
+            if (cell.value === VALID) {
+                cell.value = EMPTY
+                cell.pairs = []
+            }
+        }
+    }
+}
+
+const movesLeft = (board) => {
+    clearPairs(board)
+    return turn(board, BLACK) || turn(board, WHITE)
+}
+export default { trace, scan, reversi, turn, clearPairs, movesLeft }
