@@ -31,6 +31,22 @@ const boardReducer = (
             // App will handle endgame state
             break
         }
+        case 'MOVES_LEFT': {
+            const copy = [...state.board]
+            console.log(utils.movesLeft(copy))
+            return { board: copy, player: state.player }
+        }
+        case 'CLEAR_PAIRS': {
+            const copy = [...state.board]
+            utils.clearPairs(copy)
+            return { board: copy, player: state.player }
+        }
+        case 'SHOW_MOVES': {
+            const copy = [...state.board]
+            utils.clearPairs(copy)
+            utils.turn(copy, action.data)
+            return { board: copy, player: action.data }
+        }
         case 'START_GAME': {
             const copy = [...state.board]
             utils.turn(copy, BLACK)
@@ -64,6 +80,11 @@ const boardReducer = (
         }
         case 'INIT_BOARD': {
             const copy = [...state.board]
+            for (let i = 0; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    initialBoard[i][j] = { row: i, column: j, value: EMPTY, pairs: [] }
+                }
+            }
             for (const { row, column, value } of action.data) {
                 console.log(row, column, value)
                 copy[row][column] = { row, column, value, pairs: [] }
@@ -81,30 +102,49 @@ const boardReducer = (
     }
 }
 
+export const movesLeft = () => {
+    return {
+        type: 'MOVES_LEFT',
+    }
+}
+
+export const clearPairs = () => {
+    return {
+        type: 'CLEAR_PAIRS',
+    }
+}
+
+export const showMoves = (player) => {
+    return {
+        type: 'SHOW_MOVES',
+        data: player,
+    }
+}
+
 export const startGame = () => {
     return {
-        type: 'START_GAME'
+        type: 'START_GAME',
     }
 }
 
 export const traceLeft = (row, column) => {
-    return { 
+    return {
         type: 'TRACE_LEFT',
-        data: { row, column }
+        data: { row, column },
     }
 }
 
 export const reversi = (row, column, value) => {
-    return { 
+    return {
         type: value === VALID ? 'REVERSI' : 'SCAN',
-        data: { row, column }
+        data: { row, column },
     }
 }
 
 export const scan = (row, column) => {
-    return { 
+    return {
         type: 'SCAN',
-        data: { row, column }
+        data: { row, column },
     }
 }
 

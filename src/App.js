@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css'
 import Cell from './components/Cell'
-import { initBoard, startGame } from './reducers/boardReducer'
+import { initBoard, startGame, showMoves, movesLeft } from './reducers/boardReducer'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -15,9 +15,24 @@ const App = () => {
     useEffect(() => dispatch(initBoard()), [])
 
     const onClick = () => {
+        dispatch(initBoard())
         dispatch(startGame())
     }
-    return <div className="game-board">{board}<p>player: {player}</p><button onClick={onClick}>start game</button></div>
+
+    const playerTurn = (player) => {
+        return () => dispatch(showMoves(player))
+    }
+
+    return (
+        <div className="game-board">
+            {board}
+            <p>player: {player}</p>
+            <button onClick={onClick}>start game</button>
+            <button onClick={playerTurn('1')}>Black's Moves</button>
+            <button onClick={playerTurn('0')}>White's Moves</button>
+            <button onClick={() => dispatch(movesLeft())}>Moves left?</button>
+        </div>
+    )
 }
 
 export default App
